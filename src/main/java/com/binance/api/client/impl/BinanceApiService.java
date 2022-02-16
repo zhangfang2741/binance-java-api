@@ -13,12 +13,7 @@ import com.binance.api.client.domain.account.Trade;
 import com.binance.api.client.domain.account.WithdrawHistory;
 import com.binance.api.client.domain.event.ListenKey;
 import com.binance.api.client.domain.general.ServerTime;
-import com.binance.api.client.domain.market.AggTrade;
-import com.binance.api.client.domain.market.BookTicker;
-import com.binance.api.client.domain.market.Candlestick;
-import com.binance.api.client.domain.market.OrderBook;
-import com.binance.api.client.domain.market.TickerPrice;
-import com.binance.api.client.domain.market.TickerStatistics;
+import com.binance.api.client.domain.market.*;
 import retrofit2.Call;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
@@ -41,6 +36,10 @@ public interface BinanceApiService {
 
   @GET("/api/v1/time")
   Call<ServerTime> getServerTime();
+
+
+  @GET("/api/v3/exchangeInfo")
+  Call<String> getExchangeInfo(@Query("symbol") String symbol);
 
   // Market data endpoints
 

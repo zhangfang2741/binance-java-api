@@ -12,13 +12,7 @@ import com.binance.api.client.domain.account.request.AllOrdersRequest;
 import com.binance.api.client.domain.account.request.CancelOrderRequest;
 import com.binance.api.client.domain.account.request.OrderRequest;
 import com.binance.api.client.domain.account.request.OrderStatusRequest;
-import com.binance.api.client.domain.market.AggTrade;
-import com.binance.api.client.domain.market.BookTicker;
-import com.binance.api.client.domain.market.Candlestick;
-import com.binance.api.client.domain.market.CandlestickInterval;
-import com.binance.api.client.domain.market.OrderBook;
-import com.binance.api.client.domain.market.TickerPrice;
-import com.binance.api.client.domain.market.TickerStatistics;
+import com.binance.api.client.domain.market.*;
 
 import java.util.List;
 
@@ -27,225 +21,233 @@ import java.util.List;
  */
 public interface BinanceApiRestClient {
 
-  // General endpoints
+    // General endpoints
 
-  /**
-   * Test connectivity to the Rest API.
-   */
-  void ping();
+    /**
+     * Test connectivity to the Rest API.
+     */
+    void ping();
 
-  /**
-   * Check server time.
-   */
-  Long getServerTime();
+    /**
+     * Check server time.
+     */
+    Long getServerTime();
 
-  // Market Data endpoints
+    /**
+     * Current exchange trading rules and symbol information
+     *
+     * @param symbol
+     * @return
+     */
+    String getExchangeInfo(String symbol);
 
-  /**
-   * Get order book of a symbol.
-   *
-   * @param symbol ticker symbol (e.g. ETHBTC)
-   * @param limit depth of the order book (max 100)
-   */
-  OrderBook getOrderBook(String symbol, Integer limit);
+    // Market Data endpoints
 
-  /**
-   * Get compressed, aggregate trades. Trades that fill at the time, from the same order, with
-   * the same price will have the quantity aggregated.
-   *
-   * If both <code>startTime</code> and <code>endTime</code> are sent, <code>limit</code>should not
-   * be sent AND the distance between <code>startTime</code> and <code>endTime</code> must be less than 24 hours.
-   *
-   * @param symbol symbol to aggregate (mandatory)
-   * @param fromId ID to get aggregate trades from INCLUSIVE (optional)
-   * @param limit Default 500; max 500 (optional)
-   * @param startTime Timestamp in ms to get aggregate trades from INCLUSIVE (optional).
-   * @param endTime Timestamp in ms to get aggregate trades until INCLUSIVE (optional).
-   * @return a list of aggregate trades for the given symbol
-   */
-  List<AggTrade> getAggTrades(String symbol, String fromId, Integer limit, Long startTime, Long endTime);
+    /**
+     * Get order book of a symbol.
+     *
+     * @param symbol ticker symbol (e.g. ETHBTC)
+     * @param limit  depth of the order book (max 100)
+     */
+    OrderBook getOrderBook(String symbol, Integer limit);
 
-  /**
-   * Return the most recent aggregate trades for <code>symbol</code>
-   *
-   * @see #getAggTrades(String, String, Integer, Long, Long)
-   */
-  List<AggTrade> getAggTrades(String symbol);
+    /**
+     * Get compressed, aggregate trades. Trades that fill at the time, from the same order, with
+     * the same price will have the quantity aggregated.
+     * <p>
+     * If both <code>startTime</code> and <code>endTime</code> are sent, <code>limit</code>should not
+     * be sent AND the distance between <code>startTime</code> and <code>endTime</code> must be less than 24 hours.
+     *
+     * @param symbol    symbol to aggregate (mandatory)
+     * @param fromId    ID to get aggregate trades from INCLUSIVE (optional)
+     * @param limit     Default 500; max 500 (optional)
+     * @param startTime Timestamp in ms to get aggregate trades from INCLUSIVE (optional).
+     * @param endTime   Timestamp in ms to get aggregate trades until INCLUSIVE (optional).
+     * @return a list of aggregate trades for the given symbol
+     */
+    List<AggTrade> getAggTrades(String symbol, String fromId, Integer limit, Long startTime, Long endTime);
 
-  /**
-   * Kline/candlestick bars for a symbol. Klines are uniquely identified by their open time.
-   *
-   * @param symbol symbol to aggregate (mandatory)
-   * @param interval candlestick interval (mandatory)
-   * @param limit Default 500; max 500 (optional)
-   * @param startTime Timestamp in ms to get candlestick bars from INCLUSIVE (optional).
-   * @param endTime Timestamp in ms to get candlestick bars until INCLUSIVE (optional).
-   * @return a candlestick bar for the given symbol and interval
-   */
-  List<Candlestick> getCandlestickBars(String symbol, CandlestickInterval interval, Integer limit, Long startTime, Long endTime);
+    /**
+     * Return the most recent aggregate trades for <code>symbol</code>
+     *
+     * @see #getAggTrades(String, String, Integer, Long, Long)
+     */
+    List<AggTrade> getAggTrades(String symbol);
 
-  /**
-   * Kline/candlestick bars for a symbol. Klines are uniquely identified by their open time.
-   *
-   * @see #getCandlestickBars(String, CandlestickInterval, Integer, Long, Long)
-   */
-  List<Candlestick> getCandlestickBars(String symbol, CandlestickInterval interval);
+    /**
+     * Kline/candlestick bars for a symbol. Klines are uniquely identified by their open time.
+     *
+     * @param symbol    symbol to aggregate (mandatory)
+     * @param interval  candlestick interval (mandatory)
+     * @param limit     Default 500; max 500 (optional)
+     * @param startTime Timestamp in ms to get candlestick bars from INCLUSIVE (optional).
+     * @param endTime   Timestamp in ms to get candlestick bars until INCLUSIVE (optional).
+     * @return a candlestick bar for the given symbol and interval
+     */
+    List<Candlestick> getCandlestickBars(String symbol, CandlestickInterval interval, Integer limit, Long startTime, Long endTime);
 
-  /**
-   * Get 24 hour price change statistics.
-   *
-   * @param symbol ticker symbol (e.g. ETHBTC)
-   */
-  TickerStatistics get24HrPriceStatistics(String symbol);
+    /**
+     * Kline/candlestick bars for a symbol. Klines are uniquely identified by their open time.
+     *
+     * @see #getCandlestickBars(String, CandlestickInterval, Integer, Long, Long)
+     */
+    List<Candlestick> getCandlestickBars(String symbol, CandlestickInterval interval);
 
-  /**
-   * Get Latest price for all symbols.
-   */
-  List<TickerPrice> getAllPrices();
+    /**
+     * Get 24 hour price change statistics.
+     *
+     * @param symbol ticker symbol (e.g. ETHBTC)
+     */
+    TickerStatistics get24HrPriceStatistics(String symbol);
 
-  /**
-   * Get best price/qty on the order book for all symbols.
-   */
-  List<BookTicker> getBookTickers();
+    /**
+     * Get Latest price for all symbols.
+     */
+    List<TickerPrice> getAllPrices();
 
-  // Account endpoints
+    /**
+     * Get best price/qty on the order book for all symbols.
+     */
+    List<BookTicker> getBookTickers();
 
-  /**
-   * Send in a new order.
-   *
-   * @param order the new order to submit.
-   * @return a response containing details about the newly placed order.
-   */
-  NewOrderResponse newOrder(NewOrder order);
+    // Account endpoints
 
-  /**
-   * Test new order creation and signature/recvWindow long. Creates and validates a new order but does not send it into the matching engine.
-   *
-   * @param order the new TEST order to submit.
-   */
-  void newOrderTest(NewOrder order);
+    /**
+     * Send in a new order.
+     *
+     * @param order the new order to submit.
+     * @return a response containing details about the newly placed order.
+     */
+    NewOrderResponse newOrder(NewOrder order);
 
-  /**
-   * Check an order's status.
-   * @param orderStatusRequest order status request options/filters
-   *
-   * @return an order
-   */
-  Order getOrderStatus(OrderStatusRequest orderStatusRequest);
+    /**
+     * Test new order creation and signature/recvWindow long. Creates and validates a new order but does not send it into the matching engine.
+     *
+     * @param order the new TEST order to submit.
+     */
+    void newOrderTest(NewOrder order);
 
-  /**
-   * Cancel an active order.
-   *
-   * @param cancelOrderRequest order status request parameters
-   */
-  void cancelOrder(CancelOrderRequest cancelOrderRequest);
+    /**
+     * Check an order's status.
+     *
+     * @param orderStatusRequest order status request options/filters
+     * @return an order
+     */
+    Order getOrderStatus(OrderStatusRequest orderStatusRequest);
 
-  /**
-   * Get all open orders on a symbol.
-   *
-   * @param orderRequest order request parameters
-   * @return a list of all account open orders on a symbol.
-   */
-  List<Order> getOpenOrders(OrderRequest orderRequest);
+    /**
+     * Cancel an active order.
+     *
+     * @param cancelOrderRequest order status request parameters
+     */
+    void cancelOrder(CancelOrderRequest cancelOrderRequest);
 
-  /**
-   * Get all account orders; active, canceled, or filled.
-   *
-   * @param orderRequest order request parameters
-   * @return a list of all account orders
-   */
-  List<Order> getAllOrders(AllOrdersRequest orderRequest);
+    /**
+     * Get all open orders on a symbol.
+     *
+     * @param orderRequest order request parameters
+     * @return a list of all account open orders on a symbol.
+     */
+    List<Order> getOpenOrders(OrderRequest orderRequest);
 
-  /**
-   * Get current account information.
-   */
-  Account getAccount(Long recvWindow, Long timestamp);
+    /**
+     * Get all account orders; active, canceled, or filled.
+     *
+     * @param orderRequest order request parameters
+     * @return a list of all account orders
+     */
+    List<Order> getAllOrders(AllOrdersRequest orderRequest);
 
-  /**
-   * Get current account information using default parameters.
-   */
-  Account getAccount();
+    /**
+     * Get current account information.
+     */
+    Account getAccount(Long recvWindow, Long timestamp);
 
-  /**
-   * Get trades for a specific account and symbol.
-   *
-   * @param symbol symbol to get trades from
-   * @param limit default 500; max 500
-   * @param fromId TradeId to fetch from. Default gets most recent trades.
-   * @return a list of trades
-   */
-  List<Trade> getMyTrades(String symbol, Integer limit, Long fromId, Long recvWindow, Long timestamp);
+    /**
+     * Get current account information using default parameters.
+     */
+    Account getAccount();
 
-  /**
-   * Get trades for a specific account and symbol.
-   *
-   * @param symbol symbol to get trades from
-   * @param limit default 500; max 500
-   * @return a list of trades
-   */
-  List<Trade> getMyTrades(String symbol, Integer limit);
+    /**
+     * Get trades for a specific account and symbol.
+     *
+     * @param symbol symbol to get trades from
+     * @param limit  default 500; max 500
+     * @param fromId TradeId to fetch from. Default gets most recent trades.
+     * @return a list of trades
+     */
+    List<Trade> getMyTrades(String symbol, Integer limit, Long fromId, Long recvWindow, Long timestamp);
 
-  /**
-   * Get trades for a specific account and symbol.
-   *
-   * @param symbol symbol to get trades from
-   * @return a list of trades
-   */
-  List<Trade> getMyTrades(String symbol);
+    /**
+     * Get trades for a specific account and symbol.
+     *
+     * @param symbol symbol to get trades from
+     * @param limit  default 500; max 500
+     * @return a list of trades
+     */
+    List<Trade> getMyTrades(String symbol, Integer limit);
 
-  /**
-   * Submit a withdraw request.
-   *
-   * Enable Withdrawals option has to be active in the API settings.
-   *
-   * @param asset asset symbol to withdraw
-   * @param address address to withdraw to
-   * @param amount amount to withdraw
-   * @param name description/alias of the address
-   */
-  void withdraw(String asset, String address, String amount, String name);
+    /**
+     * Get trades for a specific account and symbol.
+     *
+     * @param symbol symbol to get trades from
+     * @return a list of trades
+     */
+    List<Trade> getMyTrades(String symbol);
 
-  /**
-   * Fetch account deposit history.
-   *
-   * @return deposit history, containing a list of deposits
-   */
-  DepositHistory getDepositHistory(String asset);
+    /**
+     * Submit a withdraw request.
+     * <p>
+     * Enable Withdrawals option has to be active in the API settings.
+     *
+     * @param asset   asset symbol to withdraw
+     * @param address address to withdraw to
+     * @param amount  amount to withdraw
+     * @param name    description/alias of the address
+     */
+    void withdraw(String asset, String address, String amount, String name);
 
-  /**
-   * Fetch account withdraw history.
-   *
-   * @return withdraw history, containing a list of withdrawals
-   */
-  WithdrawHistory getWithdrawHistory(String asset);
+    /**
+     * Fetch account deposit history.
+     *
+     * @return deposit history, containing a list of deposits
+     */
+    DepositHistory getDepositHistory(String asset);
 
-  /**
-   * Fetch deposit address.
-   *
-   * @return deposit address for a given asset.
-   */
-  DepositAddress getDepositAddress(String asset);
+    /**
+     * Fetch account withdraw history.
+     *
+     * @return withdraw history, containing a list of withdrawals
+     */
+    WithdrawHistory getWithdrawHistory(String asset);
 
-  // User stream endpoints
+    /**
+     * Fetch deposit address.
+     *
+     * @return deposit address for a given asset.
+     */
+    DepositAddress getDepositAddress(String asset);
 
-  /**
-   * Start a new user data stream.
-   *
-   * @return a listen key that can be used with data streams
-   */
-  String startUserDataStream();
+    // User stream endpoints
 
-  /**
-   * PING a user data stream to prevent a time out.
-   *
-   * @param listenKey listen key that identifies a data stream
-   */
-  void keepAliveUserDataStream(String listenKey);
+    /**
+     * Start a new user data stream.
+     *
+     * @return a listen key that can be used with data streams
+     */
+    String startUserDataStream();
 
-  /**
-   * Close out a new user data stream.
-   *
-   * @param listenKey listen key that identifies a data stream
-   */
-  void closeUserDataStream(String listenKey);
+    /**
+     * PING a user data stream to prevent a time out.
+     *
+     * @param listenKey listen key that identifies a data stream
+     */
+    void keepAliveUserDataStream(String listenKey);
+
+    /**
+     * Close out a new user data stream.
+     *
+     * @param listenKey listen key that identifies a data stream
+     */
+    void closeUserDataStream(String listenKey);
 }
