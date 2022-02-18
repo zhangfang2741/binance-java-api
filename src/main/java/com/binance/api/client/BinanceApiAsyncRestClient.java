@@ -36,7 +36,7 @@ public interface BinanceApiAsyncRestClient {
   void getServerTime(BinanceApiCallback<ServerTime> callback);
 
   // Market Data endpoints
-  String getExchangeInfo(String symbol);
+  ExchangeInfo getExchangeInfo(String symbol);
   /**
    * Get order book of a symbol (asynchronous)
    *

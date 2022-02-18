@@ -1,11 +1,14 @@
 package com.binance.api.client.domain.market;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
 import java.util.List;
 
 /**
  * 交易规范信息
  * doc:https://binance-docs.github.io/apidocs/spot/cn/#e7746f7d60
  */
+@JsonDeserialize(using = ExchangeInfoDeserializer.class)
 public class ExchangeInfo {
     private String timezone;
     private Long serverTime;

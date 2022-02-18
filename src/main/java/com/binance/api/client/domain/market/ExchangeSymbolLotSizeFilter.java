@@ -1,4 +1,10 @@
 package com.binance.api.client.domain.market;
+
+import com.binance.api.client.annontation.ExchangeSymbolFilterAnnotation;
+import com.binance.api.client.domain.ExchangeSymbolFilterType;
+
+import java.util.Map;
+
 /**
  * LOT_SIZE 订单尺寸
  * Lots是拍卖术语，LOT_SIZE 过滤器对订单中的 quantity 也就是数量参数进行合法性检查
@@ -8,6 +14,7 @@ package com.binance.api.client.domain.market;
  * quantity <= maxQty
  * (quantity-minQty) % stepSize == 0
  */
+@ExchangeSymbolFilterAnnotation(type = ExchangeSymbolFilterType.LOT_SIZE)
 public class ExchangeSymbolLotSizeFilter extends ExchangeSymbolFilter {
     //minQty 表示 quantity/icebergQty 允许的最小值。
     private Double minQty;
@@ -15,6 +22,7 @@ public class ExchangeSymbolLotSizeFilter extends ExchangeSymbolFilter {
     private Double maxQty;
     //stepSize 表示 quantity/icebergQty 允许的步进值。
     private Double stepSize;
+
 
     public Double getMinQty() {
         return minQty;

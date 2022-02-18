@@ -39,7 +39,7 @@ public interface BinanceApiService {
 
 
   @GET("/api/v3/exchangeInfo")
-  Call<String> getExchangeInfo(@Query("symbol") String symbol);
+  Call<ExchangeInfo> getExchangeInfo(@Query("symbol") String symbol);
 
   // Market data endpoints
 

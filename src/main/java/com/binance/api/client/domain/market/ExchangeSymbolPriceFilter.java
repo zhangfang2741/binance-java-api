@@ -1,5 +1,8 @@
 package com.binance.api.client.domain.market;
 
+import com.binance.api.client.annontation.ExchangeSymbolFilterAnnotation;
+import com.binance.api.client.domain.ExchangeSymbolFilterType;
+
 /**
  * PRICE_FILTER 价格过滤器
  * 价格过滤器 用于检测订单中 price 参数的合法性
@@ -8,6 +11,7 @@ package com.binance.api.client.domain.market;
  * price <= maxPrice
  * (price-minPrice) % tickSize == 0
  */
+@ExchangeSymbolFilterAnnotation(type = ExchangeSymbolFilterType.PRICE_FILTER)
 public class ExchangeSymbolPriceFilter extends ExchangeSymbolFilter {
     //minPrice 定义了 price/stopPrice 允许的最小值
     private Double minPrice;
@@ -40,4 +44,5 @@ public class ExchangeSymbolPriceFilter extends ExchangeSymbolFilter {
     public void setTickSize(Double tickSize) {
         this.tickSize = tickSize;
     }
+
 }

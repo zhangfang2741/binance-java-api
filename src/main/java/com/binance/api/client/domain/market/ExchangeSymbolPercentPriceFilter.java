@@ -1,5 +1,8 @@
 package com.binance.api.client.domain.market;
 
+import com.binance.api.client.annontation.ExchangeSymbolFilterAnnotation;
+import com.binance.api.client.domain.ExchangeSymbolFilterType;
+
 /**
  * PERCENT_PRICE 价格振幅过滤器
  * PERCENT_PRICE过滤器基于先前交易的平均值来定义价格的有效范围。
@@ -7,6 +10,7 @@ package com.binance.api.client.domain.market;
  * price <=weightedAveragePrice(加权平均价格) *multiplierUp（乘数上）
  * price> =weightedAveragePrice(加权平均价格) *multiplierDown（乘数下）
  */
+@ExchangeSymbolFilterAnnotation(type = ExchangeSymbolFilterType.PERCENT_PRICE)
 public class ExchangeSymbolPercentPriceFilter extends ExchangeSymbolFilter {
     private Double multiplierUp;
     private Double multiplierDown;
@@ -36,4 +40,5 @@ public class ExchangeSymbolPercentPriceFilter extends ExchangeSymbolFilter {
     public void setAvgPriceMins(Integer avgPriceMins) {
         this.avgPriceMins = avgPriceMins;
     }
+
 }

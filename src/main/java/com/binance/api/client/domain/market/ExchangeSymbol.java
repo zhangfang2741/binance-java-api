@@ -2,11 +2,9 @@ package com.binance.api.client.domain.market;
 
 import com.binance.api.client.domain.OrderType;
 import com.binance.api.client.domain.Permission;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import java.util.List;
 
-@JsonDeserialize(using = ExchangeSymbolDeserializer.class)
 public class ExchangeSymbol {
     private String symbol;
     private String status;

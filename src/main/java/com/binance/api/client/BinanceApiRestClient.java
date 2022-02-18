@@ -39,7 +39,7 @@ public interface BinanceApiRestClient {
      * @param symbol
      * @return
      */
-    String getExchangeInfo(String symbol);
+    ExchangeInfo getExchangeInfo(String symbol);
 
     // Market Data endpoints
 

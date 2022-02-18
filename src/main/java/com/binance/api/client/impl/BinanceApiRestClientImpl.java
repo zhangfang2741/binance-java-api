@@ -45,7 +45,7 @@ public class BinanceApiRestClientImpl implements BinanceApiRestClient {
   }
 
   @Override
-  public String getExchangeInfo(String symbol) {
+  public ExchangeInfo getExchangeInfo(String symbol) {
     return executeSync(binanceApiService.getExchangeInfo(symbol));
   }
 

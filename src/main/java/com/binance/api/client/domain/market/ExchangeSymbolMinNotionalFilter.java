@@ -1,11 +1,14 @@
 package com.binance.api.client.domain.market;
 
+import com.binance.api.client.annontation.ExchangeSymbolFilterAnnotation;
+import com.binance.api.client.domain.ExchangeSymbolFilterType;
+
 /**
  * MIN_NOTIONAL 最小名义价值(成交额)
  * MIN_NOTIONAL过滤器定义了交易对订单所允许的最小名义价值(成交额)。 订单的名义价值是价格*数量。 如果是高级订单(比如止盈止损订单STOP_LOSS_LIMIT)，名义价值会按照stopPrice * quantity来计算。 如果是冰山订单，名义价值会按照price * icebergQty来计算。
  * 由于MARKET订单没有价格，因此会在最后avgPriceMins分钟内使用平均价格。
- *
  */
+@ExchangeSymbolFilterAnnotation(type = ExchangeSymbolFilterType.MIN_NOTIONAL)
 public class ExchangeSymbolMinNotionalFilter extends ExchangeSymbolFilter {
     //最小名义价值
     private Double minNotional;
@@ -37,4 +40,5 @@ public class ExchangeSymbolMinNotionalFilter extends ExchangeSymbolFilter {
     public void setAvgPriceMins(Integer avgPriceMins) {
         this.avgPriceMins = avgPriceMins;
     }
+
 }

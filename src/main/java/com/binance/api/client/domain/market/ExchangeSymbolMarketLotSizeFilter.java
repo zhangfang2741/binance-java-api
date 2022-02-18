@@ -1,5 +1,8 @@
 package com.binance.api.client.domain.market;
 
+import com.binance.api.client.annontation.ExchangeSymbolFilterAnnotation;
+import com.binance.api.client.domain.ExchangeSymbolFilterType;
+
 /**
  * MARKET_LOT_SIZE 市价订单尺寸
  * MARKET_LOT_SIZE过滤器为交易对上的MARKET订单定义了数量(即拍卖中的"手数")规则。 共有3部分：
@@ -7,11 +10,12 @@ package com.binance.api.client.domain.market;
  * maxQty定义了允许的最大数量。
  * stepSize定义了可以增加/减少数量的间隔。
  * 为了通过market lot size，quantity必须满足以下条件：
- *
+ * <p>
  * quantity >= minQty
  * quantity <= maxQty
  * (quantity-minQty) % stepSize == 0
  */
+@ExchangeSymbolFilterAnnotation(type = ExchangeSymbolFilterType.MARKET_LOT_SIZE)
 public class ExchangeSymbolMarketLotSizeFilter extends ExchangeSymbolFilter {
     //minQty 表示 quantity/icebergQty 允许的最小值。
     private Double minQty;
@@ -43,4 +47,5 @@ public class ExchangeSymbolMarketLotSizeFilter extends ExchangeSymbolFilter {
     public void setStepSize(Double stepSize) {
         this.stepSize = stepSize;
     }
+
 }
